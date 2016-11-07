@@ -1,4 +1,3 @@
-import json
 from errbot import BotPlugin, webhook
 
 
@@ -8,13 +7,14 @@ class Alerrtmanagerr(BotPlugin):
     """
 
     @webhook('/alerrt/<recipient>/<server>/')
-    def alerrt(self, incoming_request, recipient, server):
-        separator = '-'
-        data = incoming_request
+    def alerrt(self, data, recipient, server):
         identifier = self.build_identifier(recipient + "@" + server)
-        self.send(identifier, separator * 3 + " " + data['commonLabels']['alertname'] + " " + separator * 3)
-        self.send(identifier, separator * 20)
         for alert in data['alerts']:
-            self.send(identifier, "[Summary]: " + alert['annotations']['summary'] + "\n[Description]: " + alert['annotations']['description'])
-        self.send(identifier, separator * 20)
-        return None
+            self.send_card(
+                to=identifier,
+                summary='Alert of type "{}" {}'.format(
+                    data['commonLabels']['alertname'],
+                    data['status']
+                ),
+                title=alert['annotations']['description'],
+            )
