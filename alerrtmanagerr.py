@@ -12,9 +12,9 @@ class Alerrtmanagerr(BotPlugin):
         for alert in data['alerts']:
             self.send_card(
                 to=identifier,
-                summary='Alert of type "{}" {}'.format(
+                summary='[{}] {}'.format(
                     data['commonLabels']['alertname'],
-                    data['status']
+                    data['status'].upper()
                 ),
                 title=alert['annotations']['description'],
             )
