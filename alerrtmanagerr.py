@@ -13,8 +13,8 @@ class Alerrtmanagerr(BotPlugin):
             self.send_card(
                 to=identifier,
                 summary='[{}] {}'.format(
-                    data['commonLabels']['alertname'],
-                    data['status'].upper()
+                    data['status'].upper(),
+                    data['commonLabels']['alertname']
                 ),
                 title=alert['annotations']['description'],
             )
